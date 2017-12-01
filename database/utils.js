@@ -27,9 +27,29 @@ module.exports.updCity = function(msg){
 			if (err) throw err;
 			doc.city = msg.text;
 			doc.save((err)=>{
+				mongoose.disconnect();
 				if (err) throw err;
 				console.log('City is updated | new city: '+msg.text);
 			});
 		});
 	})
+}
+
+module.exports.addMessage = function(msg, imp){
+	if (imp == undefined) imp = false;
+	mongoose.connect(uri, (err, usr)=>{
+		if (err) throw err;
+		var dbMsg = new models.message(
+			{
+				from: msg.from.id,
+				text: msg.text,
+				important : imp
+			}
+		)
+		dbMsg.save((err)=>{
+			mongoose.disconnect();
+			if (err) throw err;
+			console.log('Message succesfull added | text: '+ msg.text);
+		})
+	});
 }

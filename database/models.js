@@ -3,29 +3,37 @@ var mongoose = require("mongoose");
 
 // установка схемы
 var userScheme = new Schema({
-    _id : Number,
-		first_name: {
-			type: String,
-			default: "NoName"
-		},
-		last_name: {
-			type: String,
-			default: "NoName"
-		},
-		city: {
-			type: String,
-			default: "NOT"
-		},
-		payd: {
-			type: Boolean,
-			default: false
-		}		
+	_id : Number,
+	first_name: {
+		type: String,
+		default: "NoName"
+	},
+	last_name: {
+		type: String,
+		default: "NoName"
+	},
+	city: {
+		type: String,
+		default: "NOT"
+	},
+	payd: {
+		type: Boolean,
+		default: false
+	},		
+	cash: {
+		type: Number,
+		default: 0
+	}
 });
 
 var msgScheme = new Schema({
 	from:{
 		type: Number,
 		default: 0
+	},
+	important: {
+		type: Boolean,
+		default: false
 	},
 	text:{
 		type: String,
@@ -38,8 +46,9 @@ var msgScheme = new Schema({
 });
 
 var User = mongoose.model("User", userScheme);
+var Message = mongoose.model("Message", msgScheme);
 
-module.exports = {user:User, messages: msgScheme};
+module.exports = {user:User, message: Message};
 
 var req = {
 	"message_id":12,
