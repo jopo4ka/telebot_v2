@@ -83,8 +83,8 @@ module.exports.getOrders = function(msg, callback){
 		if (err) throw err;
 		models.order.find({owner: msg.from.id}, function (err, ordrs) {
 			if (err) throw err;
-			callback(ordrs);
 			mongoose.disconnect();
+			callback(ordrs);
 		});
 	});
 }
