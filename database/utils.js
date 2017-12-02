@@ -4,6 +4,11 @@ var models = require('./models');
 // подключение
 var uri = 'mongodb://127.0.0.1/test';
 
+function random(min, max)
+{
+  return Math.random() * (max - min) + min;
+}
+
 module.exports.addUser = function(msg){
 	mongoose.connect(uri, (err)=>{
 		if (err) throw err;
@@ -54,7 +59,33 @@ module.exports.addMessage = function(msg, imp){
 	});
 }
 
-module.exports.addCart = function(msg, match){
-	console.log('Text message | 'msg.text)
-	console.log(match[0]);
+module.exports.addOrder = function(msg, match, group){
+	if (group == undefined) group = "WTF???";
+	mongoose.connect(uri, (err, usr)=>{
+		if (err) throw err;
+		var dbOrder = new models.order({
+			owner: msg.from.id,
+			num: random(1000, 9999)|0,
+			text: group +" | "+ match[1]
+		});
+		dbOrder.save((err)=>{
+			mongoose.disconnect();
+			if(err) throw err;
+			console.log("Object saved: "+ dbOrder)
+		})
+	});
+	console.log('Text message | '+ msg.text)
+	console.log('SK: '+match[1]);
 }
+
+module.exports.getOrders = function(msg, callback){
+	mongoose.connect(uri, (err, cart)=>{
+		if (err) throw err;
+		models.order.find({owner: msg.from.id}, function (err, ordrs) {
+			if (err) throw err;
+			callback(ordrs);
+			mongoose.disconnect();
+		});
+	});
+}
+

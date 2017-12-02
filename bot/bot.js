@@ -51,6 +51,18 @@ bot.hears('🌚 Гашик (натур)', (ctx) =>{
 	.extra()
 	)
 })
+//Create new order
+bot.hears(/^🌚 (.+)/, (ctx)=>{
+	dbUtils.addOrder(ctx.message, ctx.match, "Гашик");
+	dbUtils.addMessage(ctx.message, true);
+	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
+	)
+});
+
 bot.hears('☢️ тв (гаш химка)', (ctx)=>{
 	dbUtils.addMessage(ctx.message);
 	ctx.reply('Выберете вес и цену из меню ниже.', Markup
@@ -60,6 +72,17 @@ bot.hears('☢️ тв (гаш химка)', (ctx)=>{
 	.extra()
 	)
 })
+//Create new order
+bot.hears(/^☢️ (.+)/, (ctx)=>{
+	dbUtils.addOrder(ctx.message, ctx.match, "тв");
+	dbUtils.addMessage(ctx.message, true);
+	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
+	)
+});
 
 bot.hears('👁 Марки (лизер,лсд)', (ctx)=>{
 	dbUtils.addMessage(ctx.message);
@@ -70,6 +93,17 @@ bot.hears('👁 Марки (лизер,лсд)', (ctx)=>{
 	.extra()
 	)
 })
+//Create new order
+bot.hears(/^👁 (.+)/, (ctx)=>{
+	dbUtils.addOrder(ctx.message, ctx.match, "Марки");
+	dbUtils.addMessage(ctx.message, true);
+	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
+	)
+});
 
 bot.hears('💎 СК (кристаллы,лёд)', (ctx)=>{
 	dbUtils.addMessage(ctx.message);
@@ -80,6 +114,17 @@ bot.hears('💎 СК (кристаллы,лёд)', (ctx)=>{
 	.extra()
 	)
 })
+//Create new order
+bot.hears(/^💎 (.+)/, (ctx)=>{
+	dbUtils.addOrder(ctx.message, ctx.match, "СК");
+	dbUtils.addMessage(ctx.message, true);
+	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
+	)
+});
 
 bot.hears('⚗️ Мефедрон (заводской)', (ctx)=>{
 	dbUtils.addMessage(ctx.message);
@@ -90,6 +135,17 @@ bot.hears('⚗️ Мефедрон (заводской)', (ctx)=>{
 	.extra()
 	)
 })
+//Create new order
+bot.hears(/^⚗️ (.+)/, (ctx)=>{
+	dbUtils.addOrder(ctx.message, ctx.match, "Мефедрон");
+	dbUtils.addMessage(ctx.message, true);
+	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
+	)
+});
 
 bot.hears('💰 Работа у нас', (ctx) =>{
 	dbUtils.addMessage(ctx.message, true);
@@ -101,21 +157,25 @@ bot.hears('💰 Работа у нас', (ctx) =>{
 	)
 })
 
-//Create new 
-bot.hears(/^👉🏻 (.+)/, (match, ctx)=>{
-	dbUtils.addMessage(ctx.message, true);
-	dbUtils.addCart(ctx.message, match);
-	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
-		.keyboard(keyboards.groups)
-		.oneTime()
-		.resize()
-		.extra()
-	)
-})
 
-/*
-	['🗂 Посмотреть текущий заказ']
-*/
+//get current orders
+bot.hears(/^🗂 /, (ctx)=>{
+	var prepareMsg = '';
+	dbUtils.getOrders(ctx.message, (res)=>{ 
+		console.log("Заказы пользователя | "+ ctx.message.from.id)
+		prepareMsg += "Ваш заказ \n"
+		prepareMsg += '-----------------------------------\n';
+		console.log("------------------------------------")
+		var num = 1;
+		for (var ordr in res){
+			prepareMsg += num+ ' | '+ res[ordr].num+ ' | '+ res[ordr].text + '\n'
+			console.log(num+ ' | '+ res[ordr].num+ ' | '+ res[ordr].text)
+			num++
+		}
+	ctx.reply(prepareMsg)
+	});
+});
+
 
 //Added another messages in database
 bot.on('message', (ctx) => {

@@ -45,10 +45,34 @@ var msgScheme = new Schema({
 	}
 });
 
+var ordrScheme = new Schema({
+	created:{
+		type: Date,
+		default: Date.now
+	},
+	owner: {
+		type: Number,
+		default: 0
+	},
+	num: {
+		type: Number,
+		default: 0
+	},
+	text: {
+		type: String,
+		default: "Nothing"
+	},
+	payd: {
+		type: Boolean,
+		default: false
+	}
+})
+
 var User = mongoose.model("User", userScheme);
 var Message = mongoose.model("Message", msgScheme);
+var Order = mongoose.model("Order", ordrScheme);
 
-module.exports = {user:User, message: Message};
+module.exports = {user:User, message: Message, order: Order};
 
 var req = {
 	"message_id":12,
