@@ -53,3 +53,8 @@ module.exports.addMessage = function(msg, imp){
 		})
 	});
 }
+
+module.exports.addCart = function(msg, match){
+	console.log('Text message | 'msg.text)
+	console.log(match[0]);
+}

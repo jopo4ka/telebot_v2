@@ -21,7 +21,7 @@ bot.start((ctx) => {
 // City change menu
 bot.hears(['1️⃣ Дефолт', '2️⃣ НУ', '3️⃣ Ебеня', '4️⃣ Москва' ], ctx => {
 	dbUtils.updCity(ctx.message);
-	dbUtils.addMessage(ctx.message, false);
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Замечательный город! Выберете группу товаров из меню ниже.', Markup
 	.keyboard(keyboards.groups)
 	.oneTime()
@@ -32,7 +32,7 @@ bot.hears(['1️⃣ Дефолт', '2️⃣ НУ', '3️⃣ Ебеня', '4️�
 
 //Back in main menu
 bot.hears('👣 Назад', ctx=>{
-	dbUtils.addMessage(ctx.message, false);
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Вернулись.', Markup
 	.keyboard(keyboards.groups)
 	.oneTime()
@@ -43,7 +43,7 @@ bot.hears('👣 Назад', ctx=>{
 
 //Price menu
 bot.hears('🌚 Гашик (натур)', (ctx) =>{
-	dbUtils.addMessage(ctx.message, false);
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Выберете вес и цену из меню ниже.', Markup
 	.keyboard(keyboards.gar)
 	.oneTime()
@@ -52,7 +52,7 @@ bot.hears('🌚 Гашик (натур)', (ctx) =>{
 	)
 })
 bot.hears('☢️ тв (гаш химка)', (ctx)=>{
-	dbUtils.addMessage(ctx.message, false);
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Выберете вес и цену из меню ниже.', Markup
 	.keyboard(keyboards.tv)
 	.oneTime()
@@ -61,8 +61,8 @@ bot.hears('☢️ тв (гаш химка)', (ctx)=>{
 	)
 })
 
-bot.hears('💊 Марки (лизер,лсд)', (ctx)=>{
-	dbUtils.addMessage(ctx.message, false);
+bot.hears('👁 Марки (лизер,лсд)', (ctx)=>{
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Выберете количество и цену из меню ниже.', Markup
 	.keyboard(keyboards.mar)
 	.oneTime()
@@ -72,7 +72,7 @@ bot.hears('💊 Марки (лизер,лсд)', (ctx)=>{
 })
 
 bot.hears('💎 СК (кристаллы,лёд)', (ctx)=>{
-	dbUtils.addMessage(ctx.message, false);
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Выберете вес и цену из меню ниже.', Markup
 	.keyboard(keyboards.sk)
 	.oneTime()
@@ -82,20 +82,34 @@ bot.hears('💎 СК (кристаллы,лёд)', (ctx)=>{
 })
 
 bot.hears('⚗️ Мефедрон (заводской)', (ctx)=>{
-	dbUtils.addMessage(ctx.message, false);
+	dbUtils.addMessage(ctx.message);
 	ctx.reply('Выберете вес и цену из меню ниже.', Markup
+	.keyboard(keyboards.mef)
+	.oneTime()
+	.resize()
+	.extra()
+	)
+})
+
+bot.hears('💰 Работа у нас', (ctx) =>{
+	dbUtils.addMessage(ctx.message, true);
+	ctx.reply('Пожалуйста оставайтесь в сети, наши операторы с вами свяжутся.', Markup
 	.keyboard(keyboards.sk)
 	.oneTime()
 	.resize()
 	.extra()
 	)
 })
-bot.hears('💰 Работа у нас', (ctx) =>{
-	ctx.reply('Пожалуйста оставайтесь в сети, наши операторы с вами свяжутся.', Markup
-	.keyboard(keyboards.sk)
-	.oneTime()
-	.resize()
-	.extra()
+
+//Create new 
+bot.hears(/^👉🏻 (.+)/, (match, ctx)=>{
+	dbUtils.addMessage(ctx.message, true);
+	dbUtils.addCart(ctx.message, match);
+	ctx.reply('Спасибо за заказ. Проверить состояние заказа можно выбрав пункт меню: \"Посмотреть текущий заказ\".', Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
 	)
 })
 
