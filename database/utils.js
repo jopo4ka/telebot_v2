@@ -2,7 +2,7 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var models = require('./models');
 // подключение
-var uri = 'mongodb://127.0.0.1/test';
+var uri = 'mongodb://jopo4ka:Password1@ds129156.mlab.com:29156/telebot_v2';
 
 function random(min, max)
 {
