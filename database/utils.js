@@ -82,8 +82,8 @@ module.exports.getOrders = function(msg, callback){
 	mongoose.connect(uri, (err, cart)=>{
 		if (err) throw err;
 		models.order.find({owner: msg.from.id}, function (err, ordrs) {
-			if (err) throw err;
 			mongoose.disconnect();
+			if (err) throw err;
 			callback(ordrs);
 		});
 	});
