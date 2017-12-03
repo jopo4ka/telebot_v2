@@ -17,7 +17,6 @@ var allUsers;
 app.get('/', function (req, res) {
 	dbUtils.getUsers(result=>{
 		res.render('index', { title: 'Telebot admin panel', database:result});
-		allUsers = result;
 	});
 });
 

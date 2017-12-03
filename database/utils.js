@@ -95,9 +95,8 @@ module.exports.getUsers = function(callback){
 		if (err) throw err;
 		models.user.find((err, usrs)=>{
 			if (err) throw err;
-			users = usrs
+			callback(users);
 		});
-		callback(users);
 	});
 }
 
