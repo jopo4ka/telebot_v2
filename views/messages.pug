@@ -1,0 +1,39 @@
+doctype html
+html
+  head
+    title= title
+    include mixins
+    link(href='/css/bootstrap.min.css', rel='stylesheet')
+  body
+    nav.navbar.navbar-default.navbar-static-top
+      .container-fluid
+        .navbar-brand My brand
+        ul.nav.navbar-nav
+          li.active
+            a(href="#") Home
+          li
+            a(href="#") Catalogue
+
+    .container
+      .col-md-2
+        ul.nav.nav-pills.nav-stacked
+          each usr in database
+            -if (usr.id == id){
+             li.active
+               a(href="/user/"+usr._id)= usr._id
+            -}else{
+              li
+               a(href="/user/"+usr._id)= usr._id
+            -}
+      .col-md-10
+        each msg in msgs
+          -if (msg.important){
+           .alert.alert-danger
+             p= msg.text
+          -}else{
+           .alert.alert-info
+             p= msg.text
+          -}
+
+    include scripts
+

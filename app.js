@@ -1,11 +1,30 @@
-var app = require('express')();
+var express = require('express');
+var app = express();
+var dbUtils = require('./database/utils');
 var bot = require('./bot/bot');
+var pug = require('pug');
+var path = require('path');
+
+app.engine('pug', require('pug').__express)
+app.use(express.static(path.join(__dirname, 'public')));
 
 app.set('port', (process.env.PORT || 5000));
+app.set('views', './views'); // specify the views directory
+app.set('view engine', 'pug'); // register the template engine
 
-app.get('/', (req, res)=>{
-    var bot = require('./bot/bot');
-    res.send('<H3>HELLO WORLD</H3>');
+var allUsers;
+
+app.get('/', function (req, res) {
+	dbUtils.getUsers(result=>{
+		res.render('index', { title: 'Telebot admin panel', database:result});
+		allUsers = result;
+	});
+});
+
+app.get("/user/:id", function (req, res) {
+	dbUtils.getMsg(req.params["id"], (usrs, msgs)=>{
+			res.render('messages', { title: 'Telebot admin panel', id:req.params["id"], database:usrs, msgs:msgs});
+		});
 });
 
 app.listen(app.get('port'), function() {

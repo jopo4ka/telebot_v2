@@ -3,6 +3,7 @@ var Schema = mongoose.Schema;
 var models = require('./models');
 // подключение
 var uri = 'mongodb://jopo4ka:Password1@ds129156.mlab.com:29156/telebot_v2';
+//var uri = 'mongodb://localhost/test'
 
 function random(min, max)
 {
@@ -86,6 +87,36 @@ module.exports.getOrders = function(msg, callback){
 			if (err) throw err;
 			callback(ordrs);
 		});
+	});
+}
+module.exports.getUsers = function(callback){
+	var users;
+	mongoose.connect(uri, (err)=>{
+		if (err) throw err;
+		models.user.find((err, usrs)=>{
+			if (err) throw err;
+			users = usrs
+		});
+		callback(users);
+	});
+}
+
+module.exports.getMsg = function(id, callback){
+mongoose.connect(uri, (err)=>{
+	var users, messages;
+		if (err) throw err;
+		models.user.find((err, usrs)=>{
+			if (err) throw err;
+			users = usrs;
+		});
+		models.message.find({from:id}, (err, msgs)=>{
+			if (err) throw err;
+			mongoose.disconnect();
+			console.log('succes getted messages')
+			messages = msgs;
+			callback(users, messages);
+		});
+		
 	});
 }
 
