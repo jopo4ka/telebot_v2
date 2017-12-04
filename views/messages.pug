@@ -27,13 +27,18 @@ html
             -}
       .col-md-10
         each msg in msgs
-          -if (msg.important){
-           .alert.alert-danger
-             p= msg.text
-          -}else{
-           .alert.alert-info
-             p= msg.text
-          -}
-
+          .container-messages
+            -if (msg.important){
+            .alert.alert-danger
+              p= msg.text
+            -}else{
+            .alert.alert-info
+              p= msg.text
+            -}
+        .input-group
+            input(type="text", name="reply-text").form-control
+            span.input-group-btn
+              button(type="button").btn.btn-dafault Send!
+              
     include scripts
 
