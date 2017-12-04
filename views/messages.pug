@@ -36,9 +36,10 @@ html
               p= msg.text
             -}
         .input-group
-            input(type="text", name="reply-text").form-control
-            span.input-group-btn
-              button(type="button").btn.btn-dafault Send!
+          span#user.input-group-addon= id 
+          input#text(type="text", name="reply-text").form-control
+          span.input-group-btn
+            button#snd(type="button").btn.btn-dafault Send!
               
     include scripts
 

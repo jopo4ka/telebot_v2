@@ -176,12 +176,15 @@ bot.hears(/^🗂 /, (ctx)=>{
 	});
 });
 
-
 //Added another messages in database
 bot.on('message', (ctx) => {
 	dbUtils.addMessage(ctx.message, true);
 	ctx.reply('Простите, я Вас не понимаю. Пожалуйста воспользуйтесь меню.')
 	console.log('Received message | from: '+ ctx.from.id);
 })
+
+module.exports.reply = function(id, text){
+	bot.telegram.sendMessage(id, text);
+}
 
 bot.startPolling()

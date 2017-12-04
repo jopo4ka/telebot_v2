@@ -33,6 +33,10 @@ app.post('/send', (req, res)=>{
 
 io.on('connection', function(socket){
   console.log('a user connected');
+  socket.on('reply msg', args=>{
+	  console.log(args.usr + ' | '+ args.text)
+	  bot.reply(args.usr, args.text);
+  })
 });
 
 
