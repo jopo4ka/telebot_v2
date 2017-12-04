@@ -23,6 +23,10 @@ var userScheme = new Schema({
 	cash: {
 		type: Number,
 		default: 0
+	},
+	manual: {
+		type: Boolean,
+		default: false
 	}
 });
 
@@ -30,6 +34,10 @@ var msgScheme = new Schema({
 	from:{
 		type: Number,
 		default: 0
+	},
+	to:{
+		type: String,
+		default:'bot'
 	},
 	important: {
 		type: Boolean,

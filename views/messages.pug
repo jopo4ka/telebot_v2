@@ -4,6 +4,7 @@ html
     title= title
     include mixins
     link(href='/css/bootstrap.min.css', rel='stylesheet')
+    link(href='/css/style.css', rel='stylesheet')
   body
     nav.navbar.navbar-default.navbar-static-top
       .container-fluid
@@ -26,14 +27,14 @@ html
                a(href="/user/"+usr._id)= usr._id
             -}
       .col-md-10
-        each msg in msgs
-          .container-messages
+        .container-messages
+          each msg in msgs
             -if (msg.important){
             .alert.alert-danger
-              p= msg.text
+              p= msg.to+ ' | ' +msg.text
             -}else{
             .alert.alert-info
-              p= msg.text
+              p= msg.to+ ' | ' +msg.text
             -}
         .input-group
           span#user.input-group-addon= id 

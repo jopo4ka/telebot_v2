@@ -27,15 +27,11 @@ app.get("/user/:id", function (req, res) {
 		});
 });
 
-app.post('/send', (req, res)=>{
-	console.log("Sended text is | "+req.params.text);
-});
-
 io.on('connection', function(socket){
-  console.log('a user connected');
   socket.on('reply msg', args=>{
 	  console.log(args.usr + ' | '+ args.text)
 	  bot.reply(args.usr, args.text);
+	  dbUtils.addMyMessage(args.text, args.usr);
   })
 });
 
