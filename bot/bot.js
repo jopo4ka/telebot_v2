@@ -10,24 +10,32 @@ var dbUtils = require('./../database/utils');
 bot.start((ctx) => {
 	console.log('started:', ctx.from.id)
 	dbUtils.addUser(ctx.message);
-	ctx.reply('Добро пожаловать к нам! Пожалуйста, выберите город из меню ниже.', Markup
-	.keyboard(keyboards.city)
-	.oneTime()
-	.resize()
-	.extra()
-	)
+	if(dbUtils.checkMan(ctx.from.id)){
+		var prepMsg = 'Добро пожаловать к нам! Пожалуйста, выберите город из меню ниже.'
+		ctx.reply(prepMsg, Markup
+		.keyboard(keyboards.city)
+		.oneTime()
+		.resize()
+		.extra()
+		)
+		dbUtils.addMyMessage(prepMsg, ctx.from.id);
+	}else{console.log('Manual mode')}
 })
 
 // City change menu
 bot.hears(['1️⃣ Дефолт', '2️⃣ НУ', '3️⃣ Ебеня', '4️⃣ Москва' ], ctx => {
 	dbUtils.updCity(ctx.message);
 	dbUtils.addMessage(ctx.message);
-	ctx.reply('Замечательный город! Выберете группу товаров из меню ниже.', Markup
-	.keyboard(keyboards.groups)
-	.oneTime()
-	.resize()
-	.extra()
-	)
+	if(dbUtils.checkMan(ctx.from.id)){
+		var prepMsg = 'Замечательный город! Выберете группу товаров из меню ниже.';
+		ctx.reply(prepMsg, Markup
+		.keyboard(keyboards.groups)
+		.oneTime()
+		.resize()
+		.extra()
+		)
+		dbUtils.addMyMessage(prepMsg, ctx.from.id);
+	}	
 })
 
 //Back in main menu
@@ -179,8 +187,12 @@ bot.hears(/^🗂 /, (ctx)=>{
 //Added another messages in database
 bot.on('message', (ctx) => {
 	dbUtils.addMessage(ctx.message, true);
-	ctx.reply('Простите, я Вас не понимаю. Пожалуйста воспользуйтесь меню.')
-	console.log('Received message | from: '+ ctx.from.id);
+	if(dbUtils.checkMan(ctx.from.id)){
+		var prepMsg = 'Простите, я Вас не понимаю. Пожалуйста воспользуйтесь меню.'
+		ctx.reply(prepMsg)
+		console.log('Received message | from: '+ ctx.from.id);
+		dbUtils.addMyMessage(prepMsg, ctx.from.id);
+	}else{console.log('Manual mode')}
 })
 
 module.exports.reply = function(id, text){

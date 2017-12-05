@@ -71,6 +71,12 @@ module.exports.getUsers = function(callback){
 		});
 }
 
+module.exports.checkMan = function(id){
+	models.user.findById(id, (err, usr)=>{
+		return usr.manual;
+	});
+}
+
 module.exports.getMsg = function(id, callback){
 	var users, messages;
 		models.user.find((err, usrs)=>{
