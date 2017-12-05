@@ -187,12 +187,16 @@ bot.hears(/^🗂 /, (ctx)=>{
 //Added another messages in database
 bot.on('message', (ctx) => {
 	dbUtils.addMessage(ctx.message, true);
-	if(dbUtils.checkMan(ctx.from.id)){
+	dbUtils.checkMan(ctx.from.id, manMode=>{
+	if (!manMode){
 		var prepMsg = 'Простите, я Вас не понимаю. Пожалуйста воспользуйтесь меню.'
 		ctx.reply(prepMsg)
 		console.log('Received message | from: '+ ctx.from.id);
 		dbUtils.addMyMessage(prepMsg, ctx.from.id);
 	}else{console.log('Manual mode')}
+
+	})
+		
 })
 
 module.exports.reply = function(id, text){

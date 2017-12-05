@@ -71,8 +71,9 @@ module.exports.getUsers = function(callback){
 		});
 }
 
-module.exports.checkMan = function(id){
+module.exports.checkMan = function(id, callback){
 	models.user.findById(id, (err, usr)=>{
+		callback(usr.manual);
 		return usr.manual;
 	});
 }
@@ -88,5 +89,16 @@ module.exports.getMsg = function(id, callback){
 			messages = msgs;
 			callback(users, messages);
 		});
+}
+
+module.exports.changeMan= function(id, man){
+	models.user.findById(id, (err, usr)=>{
+		if (err) throw err;
+		usr.manual = man;
+		usr.save(err=>{
+			if (err) throw err;
+			console.log('Manual mode succesfull chaned')
+		})
+	})
 }
 

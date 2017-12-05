@@ -23,18 +23,24 @@ app.get('/', function (req, res) {
 
 app.get("/user/:id", function (req, res) {
 	dbUtils.getMsg(req.params["id"], (usrs, msgs)=>{
-			res.render('messages', { title: 'Telebot admin panel', id:req.params["id"], database:usrs, msgs:msgs});
-		});
+		dbUtils.checkMan(req.params["id"], (manMode)=>{
+			res.render('messages', { title: 'Telebot admin panel', id:req.params["id"], database:usrs, msgs:msgs, man:manMode});
+			console.log("Result checkMan "+ manMode)
+		})
+	});
 });
 
 io.on('connection', function(socket){
   socket.on('reply msg', args=>{
 	  console.log(args.usr + ' | '+ args.text)
 	  bot.reply(args.usr, args.text);
-	  dbUtils.addMyMessage(args.text, args.usr);
-  })
+		dbUtils.addMyMessage(args.text, args.usr);
+	})
+	socket.on('change man', args=>{
+		console.log('Manual mode is: '+args.man)
+		dbUtils.changeMan(args.id, args.man);
+	})
 });
-
 
 http.listen(app.get('port'), function() {
   console.log('Node app is running on port', app.get('port'));
