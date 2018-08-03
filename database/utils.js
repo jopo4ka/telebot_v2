@@ -2,8 +2,8 @@ var mongoose = require("mongoose");
 var Schema = mongoose.Schema;
 var models = require('./models');
 // подключение
-var uri = 'mongodb://jopo4ka:Password1@ds129156.mlab.com:29156/telebot_v2';
-//var uri = 'mongodb://localhost/test'
+//var uri = 'mongodb://jopo4ka:Password1@ds129156.mlab.com:29156/telebot_v2';
+var uri = 'mongodb://localhost/test'
 var db = mongoose.connect(uri, {useMongoClient:true})
 
 function random(min, max)
@@ -12,7 +12,7 @@ function random(min, max)
 }
 
 module.exports.addUser = function(msg){
-		var user = new models.user({_id : msg.from.id, first_name: msg.from.first_name, last_name: msg.from.last_name});
+		var user = new models.user({_id : msg.from.id, first_name: msg.from.first_name, last_name: msg.from.last_name, manual: false});
 		user.save((err)=> {
 			if(err) return console.log(err);
 			console.log("Сохранен объект user", user);
@@ -45,7 +45,7 @@ module.exports.addMyMessage = function(text, to){
 		if (err) throw err;
 		console.log('Succesfull added my message');
 	})
-} 
+}
 
 module.exports.addOrder = function(msg, match, group, imp){
 	if (group == undefined) group = "WTF???";
@@ -71,11 +71,12 @@ module.exports.getUsers = function(callback){
 		});
 }
 
-module.exports.checkMan = function(id, callback){
-	models.user.findById(id, (err, usr)=>{
-		callback(usr.manual);
-		return usr.manual;
-	});
+module.exports.checkMan = function(id, cb){
+  var temp = false;
+  	models.user.findById(id, (err, usr)=>{
+  	   cb(usr.manual);
+		//return usr.manual;
+	  });
 }
 
 module.exports.getMsg = function(id, callback){
@@ -101,4 +102,3 @@ module.exports.changeMan= function(id, man){
 		})
 	})
 }
-
